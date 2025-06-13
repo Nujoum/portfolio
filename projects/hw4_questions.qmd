@@ -1,0 +1,458 @@
+---
+title: "Segmentation and Strategy: Using ML to Decode Penguins and People"
+author: "Nujoum Unus"
+date: 10th June 2025
+---
+<!-- 
+_todo: do two analyses.  Do one of either 1a or 1b, AND one of either 2a or 2b._ -->
+
+
+<!-- ## 1a. K-Means -->
+<!-- 
+_todo: write your own code to implement the k-means algorithm.  Make plots of the various steps the algorithm takes so you can "see" the algorithm working.  Test your algorithm on the Palmer Penguins dataset, specifically using the bill length and flipper length variables.  Compare your results to the built-in `kmeans` function in R or Python._ -->
+
+## Unsupervised Learning: K-Means Clustering on Penguin Morphology
+
+### Dataset Overview
+
+The dataset used in this analysis is the **Palmer Penguins** dataset, which contains morphological measurements of 333 penguins across three species: Adelie, Chinstrap, and Gentoo. Each row represents a unique penguin, and the dataset includes features such as bill length, bill depth, flipper length, body mass, sex, island of observation, and year.
+
+For this clustering task, we focus on the following two continuous variables:
+
+- `bill_length_mm`: the length of the penguin’s bill (in millimeters)
+- `flipper_length_mm`: the length of the penguin’s flipper (in millimeters)
+
+These features are selected because they are biologically meaningful and visually distinguishable between species.
+
+### Methodology: K-Means Clustering (From Scratch)
+
+We implemented the **K-Means clustering algorithm** from scratch to segment the penguins into clusters based on their morphology. The K-Means algorithm works in the following steps:
+
+1. **Initialization**: Randomly select `K` centroids from the data.
+2. **Assignment**: Assign each data point to the nearest centroid (using Euclidean distance).
+3. **Update**: Recalculate centroids as the mean of all assigned points.
+4. **Repeat**: Continue assignment and update steps until centroids stabilize (or max iterations reached).
+
+The data was standardized using z-scores to ensure both variables contributed equally to the distance metric.
+
+We ran the algorithm for `K = 3` and visualized the final clusters to evaluate how well the model captured natural groupings in the data.
+
+
+```{python}
+#| label: kmeans-from-scratch
+#| fig-cap: "K-Means clustering steps on standardized penguin bill and flipper lengths."
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import StandardScaler
+import math
+
+# Load and preprocess data
+penguins = pd.read_csv("palmer_penguins.csv")
+X = penguins[['bill_length_mm', 'flipper_length_mm']].dropna().values
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+
+# K-Means from scratch
+def kmeans(X, k, max_iters=100, tol=1e-4):
+    np.random.seed(0)
+    n_samples = X.shape[0]
+    centroids = X[np.random.choice(n_samples, k, replace=False)]
+    history = []
+
+    for _ in range(max_iters):
+        # Assign clusters
+        distances = np.linalg.norm(X[:, np.newaxis] - centroids, axis=2)
+        labels = np.argmin(distances, axis=1)
+        history.append((centroids.copy(), labels.copy()))
+
+        # Update centroids
+        new_centroids = np.array([
+            X[labels == i].mean(axis=0) if np.any(labels == i) else centroids[i]
+            for i in range(k)
+        ])
+        if np.linalg.norm(new_centroids - centroids) < tol:
+            break
+        centroids = new_centroids
+
+    return centroids, labels, history
+
+# Run K-Means for K=3
+final_centroids, final_labels, steps = kmeans(X_scaled, k=3)
+
+n_steps = len(steps)
+plots_per_row = 4
+n_rows = int(np.ceil(n_steps / plots_per_row))
+
+fig, axes = plt.subplots(n_rows, plots_per_row, figsize=(plots_per_row * 4, n_rows * 4))
+axes = axes.flatten()
+
+for i, (centroids, labels) in enumerate(steps):
+    ax = axes[i]
+    for j in range(3):
+        cluster_pts = X_scaled[labels == j]
+        ax.scatter(cluster_pts[:, 0], cluster_pts[:, 1], s=10, label=f"Cluster {j}")
+    ax.scatter(centroids[:, 0], centroids[:, 1], c='black', marker='X', s=100)
+    ax.set_title(f"Step {i+1}")
+    ax.set_xlabel("Bill Length (scaled)")
+    ax.set_ylabel("Flipper Length (scaled)")
+
+# Turn off any unused subplots
+for ax in axes[n_steps:]:
+    ax.axis("off")
+
+plt.tight_layout()
+plt.show()
+```
+
+### Comparison to Built-In KMeans
+
+To validate the correctness of our custom K-Means implementation, we also ran the same clustering procedure using the built-in `KMeans` class from scikit-learn with `K=3`. As seen below, the cluster structure is nearly identical in shape and placement to the custom version, reinforcing that our implementation behaves as expected.
+
+```{python}
+#| label: kmeans-sklearn-comparison
+#| fig-cap: "Comparison with scikit-learn's built-in KMeans (K=3)."
+
+from sklearn.cluster import KMeans
+
+# Fit sklearn's KMeans
+kmeans_model = KMeans(n_clusters=3, n_init=10, random_state=0)
+kmeans_labels = kmeans_model.fit_predict(X_scaled)
+kmeans_centroids = kmeans_model.cluster_centers_
+
+# Plot the sklearn result
+plt.figure(figsize=(6, 5))
+for cluster_id in range(3):
+    pts = X_scaled[kmeans_labels == cluster_id]
+    plt.scatter(pts[:, 0], pts[:, 1], s=15, label=f'Cluster {cluster_id}')
+plt.scatter(kmeans_centroids[:, 0], kmeans_centroids[:, 1], c='black', s=200, marker='X', label='Centroids')
+plt.xlabel("Bill Length (scaled)")
+plt.ylabel("Flipper Length (scaled)")
+plt.title("scikit-learn KMeans Clustering (K=3)")
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+```
+
+<!-- _todo: Calculate both the within-cluster-sum-of-squares and silhouette scores (you can use built-in functions to do so) and plot the results for various numbers of clusters (ie, K=2,3,...,7). What is the "right" number of clusters as suggested by these two metrics?_ -->
+
+### Choosing the Optimal Number of Clusters
+
+To determine the most appropriate number of clusters (K), we calculated two standard metrics:
+
+- **Within-Cluster Sum of Squares (WCSS)**: Measures compactness of clusters; lower is better.
+- **Silhouette Score**: Measures how distinct clusters are; higher is better.
+
+The plots below show both metrics for K values ranging from 2 to 7. The ideal K is suggested by:
+- The **elbow point** in the WCSS curve (where additional clusters provide diminishing improvement).
+- The **peak** in the silhouette score.
+
+In this case, both metrics suggest that **K = 3** is a reasonable choice — consistent with our earlier analysis.
+
+```{python}
+#| label: kmeans-metrics-eval
+#| fig-cap: "Evaluating cluster quality using WCSS and Silhouette Score for K=2 to 7."
+
+from sklearn.metrics import silhouette_score
+
+k_range = range(2, 8)
+wcss = []
+silhouette = []
+
+for k in k_range:
+    model = KMeans(n_clusters=k, n_init=10, random_state=0)
+    labels = model.fit_predict(X_scaled)
+    wcss.append(model.inertia_)
+    silhouette.append(silhouette_score(X_scaled, labels))
+
+# Plot both metrics
+fig, ax1 = plt.subplots(figsize=(7, 5))
+
+color1 = 'tab:blue'
+ax1.set_xlabel('Number of clusters K')
+ax1.set_ylabel('WCSS (Inertia)', color=color1)
+ax1.plot(k_range, wcss, marker='o', color=color1, label='WCSS')
+ax1.tick_params(axis='y', labelcolor=color1)
+
+# Twin axis for silhouette
+ax2 = ax1.twinx()
+color2 = 'tab:green'
+ax2.set_ylabel('Silhouette Score', color=color2)
+ax2.plot(k_range, silhouette, marker='s', linestyle='--', color=color2, label='Silhouette')
+ax2.tick_params(axis='y', labelcolor=color2)
+
+plt.title("Cluster Evaluation Metrics")
+fig.tight_layout()
+plt.show()
+
+```
+
+_If you want a challenge, add your plots as an animated gif on your website so that the result looks something like [this](https://www.youtube.com/shorts/XCsoWZU9oN8)._
+
+```{python, code-fold="true"}
+#| label: kmeans-gif-maker
+#| eval: true
+#| warning: false
+#| message: false
+
+import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation, PillowWriter
+
+# Reuse the steps from earlier `kmeans()` output
+fig, ax = plt.subplots(figsize=(6, 5))
+
+def update(frame):
+    ax.clear()
+    centroids, labels = steps[frame]
+    for j in range(3):
+        pts = X_scaled[labels == j]
+        ax.scatter(pts[:, 0], pts[:, 1], s=15, label=f'Cluster {j}')
+    ax.scatter(centroids[:, 0], centroids[:, 1], c='black', s=100, marker='X')
+    ax.set_title(f"K-Means Step {frame + 1}")
+    ax.set_xlabel("Bill Length (scaled)")
+    ax.set_ylabel("Flipper Length (scaled)")
+    ax.legend()
+    ax.grid(True)
+
+anim = FuncAnimation(fig, update, frames=len(steps), repeat=False)
+
+# Save to GIF
+anim.save("kmeans_steps.gif", dpi=100, writer=PillowWriter(fps=1))
+
+```
+
+![K-Means Clustering Steps](kmeans_steps.gif)
+
+> This animation shows how the centroids move and clusters evolve during each iteration of the K-Means algorithm (K=3) on the Palmer Penguins dataset.
+
+
+## Supervised Learning: Key Drivers Analysis
+
+### Dataset Overview
+
+The dataset used in this analysis contains **2,553 survey responses** evaluating consumer perceptions of different brands. Each row corresponds to an individual respondent and includes:
+
+- A **target variable**:
+  - `satisfaction`: An ordinal score representing the respondent’s overall satisfaction with the brand (likely on a 1–5 scale).
+
+- A set of **predictor variables** (potential "drivers"):
+  - `trust`: Does the brand seem trustworthy?
+  - `build`: Does the brand build strong connections?
+  - `differs`: Does the brand feel unique or different?
+  - `easy`: Is the brand easy to interact with?
+  - `appealing`: Is the brand visually or emotionally appealing?
+  - `rewarding`: Is using the brand rewarding?
+  - `popular`: Is the brand perceived as popular?
+  - `service`: Does the brand offer good service?
+  - `impact`: Does the brand have a meaningful societal impact?
+
+- A few identifiers:
+  - `id`: Unique respondent ID
+  - `brand`: Brand identifier (categorical variable)
+
+These features will be used to estimate a **key drivers table**, which quantifies the relative importance of each attribute in predicting satisfaction.
+
+```{python, code-fold="true"}
+# Reload the drivers dataset
+df_drivers = pd.read_csv("data_for_drivers_analysis.csv")
+
+# Show summary and preview
+df_drivers.info(), df_drivers.head()
+
+```
+
+### Key Driver Results
+
+To identify what influences satisfaction the most, we ran a **linear regression** model using standardized versions of all nine potential drivers. Standardization ensures the coefficients are directly comparable, representing the effect size in units of standard deviation.
+
+The table below shows the standardized coefficients, ranked from most to least impactful:
+
+| Driver      | Standardized Coefficient |
+|-------------|---------------------------|
+| `impact`    | 0.150                     |
+| `trust`     | 0.136                     |
+| `service`   | 0.104                     |
+| `appealing` | 0.040                     |
+| `differs`   | 0.033                     |
+
+
+
+```{python, code-fold="true"}
+
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import StandardScaler
+from scipy.stats import pearsonr
+from sklearn.metrics import r2_score
+import shap
+from sklearn.ensemble import RandomForestRegressor
+import xgboost as xgb
+from sklearn.model_selection import train_test_split
+from sklearn.neural_network import MLPRegressor
+from sklearn.inspection import permutation_importance
+
+
+
+# Define predictors and target
+X = df_drivers[['trust', 'build', 'differs', 'easy', 'appealing',
+                'rewarding', 'popular', 'service', 'impact']]
+y = df_drivers['satisfaction']
+
+# Standardize predictors
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+
+# Run linear regression
+model = LinearRegression()
+model.fit(X_scaled, y)
+
+# Extract standardized coefficients
+coefficients = model.coef_
+# driver_importance = pd.DataFrame({
+#     'Driver': X.columns,
+#     'Standardized Coefficient': coefficients
+# }).sort_values(by='Standardized Coefficient', ascending=False)
+
+# Pearson correlations
+pearson_corrs = [pearsonr(X[col], y)[0] for col in X.columns]
+
+
+# Full model R²
+full_model_r2 = r2_score(y, model.predict(X_scaled))
+
+# Usefulness: R² drop when each feature is removed
+usefulness = []
+for i, col in enumerate(X.columns):
+    X_subset = X.drop(columns=[col])
+    X_subset_scaled = scaler.fit_transform(X_subset)
+    model_subset = LinearRegression().fit(X_subset_scaled, y)
+    r2_subset = r2_score(y, model_subset.predict(X_subset_scaled))
+    usefulness.append(full_model_r2 - r2_subset)
+
+# KernelExplainer works with a prediction function
+explainer = shap.KernelExplainer(model.predict, X_scaled[:100])
+shap_values_kernel = explainer.shap_values(X_scaled[:100], nsamples=100)
+
+# Compute mean absolute Shapley values for each feature
+mean_shap_values = np.abs(shap_values_kernel).mean(axis=0)
+
+
+# Correlation matrix of predictors
+R = np.corrcoef(X.values.T)
+
+# Eigen decomposition
+eigval, eigvec = np.linalg.eig(R)
+
+# Compute matrix of transformed variables
+P = eigvec @ np.diag(np.sqrt(eigval))
+Z = X.values @ P
+
+# Regression of y on transformed variables
+beta = np.linalg.lstsq(Z, y, rcond=None)[0]
+
+# Project back to original variables
+raw_relative_weights = (P @ beta) ** 2
+relative_importance = raw_relative_weights / sum(raw_relative_weights)
+
+
+# Fit Random Forest
+rf = RandomForestRegressor(n_estimators=100, random_state=0)
+rf.fit(X, y)
+
+
+# Prepare training data
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Fit XGBoost Regressor
+xgb_model = xgb.XGBRegressor(n_estimators=100, random_state=0, verbosity=0)
+xgb_model.fit(X_train, y_train)
+
+# Fit neural network
+mlp = MLPRegressor(hidden_layer_sizes=(10, 5), max_iter=1000, random_state=42)
+mlp.fit(X_train, y_train)
+
+# Permutation importance
+perm_importance = permutation_importance(mlp, X_test, y_test, n_repeats=10, random_state=42)
+
+
+
+# # Add to the previous table
+# importance_df['Usefulness (ΔR²)'] = usefulness
+
+# Build results DataFrame
+importance_df = pd.DataFrame({
+    'Driver': X.columns,
+    'Pearson Correlation': pearson_corrs,
+    'Standardized Coefficient': coefficients,
+    'Usefulness (ΔR²)' : usefulness,
+    'SHAP Value (mean |impact|)': mean_shap_values,
+    "Johnson's Relative Weight": relative_importance,
+    'Mean Decrease in Gini': rf.feature_importances_,
+    'XGBoost Importance': xgb_model.feature_importances_,
+    'Neural Net Permutation Importance': perm_importance.importances_mean
+})
+
+
+# Sort by absolute value of standardized coefficient for display
+importance_df['|Std Coef|'] = importance_df['Standardized Coefficient'].abs()
+importance_df = importance_df.sort_values(by='|Std Coef|', ascending=False).drop(columns='|Std Coef|')
+
+# Display result
+display(importance_df)
+
+
+
+```
+
+
+### Final Driver Importance Summary (All Methods)
+
+We evaluated the importance of nine brand perception attributes in predicting customer satisfaction using a diverse set of eight techniques:
+
+#### Methods Used
+
+1. **Pearson Correlation** – Simple pairwise association with satisfaction.
+2. **Standardized Regression Coefficient** – Impact in a linear model with standardized inputs.
+3. **Usefulness (ΔR²)** – Drop in R² when a feature is removed.
+4. **SHAP Value (mean |impact|)** – Average contribution of each feature using Shapley values.
+5. **Johnson’s Relative Weight** – Decomposes shared and unique variance in linear regression.
+6. **Mean Decrease in Gini** – Feature importance from a random forest model.
+7. **XGBoost Importance** – Gain-based importance in an ensemble gradient boosting model.
+8. **Neural Net Permutation Importance** – Drop in performance when input is permuted in an MLP.
+
+
+### Key Takeaways
+
+#### Consistent Top Performers
+- **Impact** dominates nearly every metric — highest in `Usefulness`, `SHAP`, and **XGBoost**, and near the top in Gini and correlation-based scores.
+- **Trust** is the most robust across **linear models** and **Johnson's method**, and it performs strongly in tree-based and neural models.
+- **Service** consistently ranks in the top 3–4 across all models — a reliable mid-tier driver.
+
+#### Method-Specific Anomalies
+- **Popular** ranks surprisingly high in **Johnson’s Relative Weight** but relatively lower in tree and NN methods — likely due to shared variance with stronger features like trust or impact.
+- **Easy** gets a strong boost from Johnson’s method but shows weak contributions elsewhere.
+- **Rewarding** flops across the board — nearly every method ranks it lowest.
+
+#### Interpretation Tips
+- **Tree-based models** (XGBoost, Random Forest) emphasize **Impact, Service, and Appealing** more than linear models do — perhaps because they capture **nonlinear interactions**.
+- **Permutation importance from neural nets** mirrors SHAP in relative scale, reinforcing trust in their reliability.
+
+
+### Conclusion
+
+If you're prioritizing strategic levers to enhance customer satisfaction, focus on:
+
+1. **Impact** – Make the brand matter.
+2. **Trust** – Earn and protect credibility.
+3. **Service** – Consistently deliver good experiences.
+
+By using a wide variety of methods, we ensure that these conclusions are not artifacts of a single model. This gives us **confidence to act on the insights**, knowing they are robust across techniques.
+
+
+
+
+
+
+
+
