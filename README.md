@@ -28,7 +28,3 @@ The website includes:
 - CSS
 - GitHub Pages (deployment)
 
----
-
-## 📂 Repo Structure
-
