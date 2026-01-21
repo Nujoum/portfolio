@@ -277,7 +277,7 @@ Note
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="0c933874" class="cell" data-execution_count="1">
+<div id="58a56400" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -342,7 +342,7 @@ Note
 <p>The original dataset includes three attributes: - <strong>brand</strong>: with levels Netflix (N), Prime (P), and Hulu (H) - <strong>ads</strong>: whether the offer includes ads (Yes/No) - <strong>price</strong>: the monthly subscription cost in dollars</p>
 <p>We encode these attributes for estimation: - Use <strong>Hulu</strong> as the reference brand (i.e., omit it from dummy coding). - Use <strong>Ad-Free</strong> as the reference for the <code>ads</code> variable. - Keep price as a numeric variable. - The <code>choice</code> variable is binary (1 if chosen, 0 otherwise).</p>
 <p>Below is the Python code that prepares the data accordingly:</p>
-<div id="4a23491e" class="cell" data-execution_count="2">
+<div id="f348bd96" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Load raw conjoint data</span></span>
@@ -556,7 +556,7 @@ P_{ic}(\boldsymbol\beta)=\frac{\exp\left(\mathbf x_{ic}^\top\boldsymbol\beta\rig
 \mathcal L(\boldsymbol\beta)=\sum_{c}\sum_{i\in c} y_{ic}\,\log P_{ic}(\boldsymbol\beta),
 \]</span></p>
 <p>where <span class="math inline">\(y_{ic}=1\)</span> for the chosen alternative and <span class="math inline">\(0\)</span> otherwise.</p>
-<div id="5ff5683c" class="cell" data-message="false" data-execution_count="3">
+<div id="1dc98022" class="cell" data-message="false" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Build the design matrix -------------------------------------------------</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df[[<span class="st">"brand_N"</span>, <span class="st">"brand_P"</span>, <span class="st">"ad_Yes"</span>, <span class="st">"price"</span>]].values</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Optional intercept: uncomment if you want a constant</span></span>
@@ -612,7 +612,7 @@ P_{ic}(\boldsymbol\beta)=\frac{\exp\left(\mathbf x_{ic}^\top\boldsymbol\beta\rig
 <h4 class="anchored" data-anchor-id="maximum-likelihood-estimates">Maximum-Likelihood Estimates</h4>
 <p>We now obtain the MLEs for the four taste parameters<br>
 (= (<em>{},;</em>{},;<em>{},;</em>{})).</p>
-<div id="974da4e6" class="cell" data-message="false" data-execution_count="4">
+<div id="fae2da45" class="cell" data-message="false" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
@@ -727,7 +727,7 @@ Table&nbsp;1 reports the point estimates, asymptotic (inverse-Hessian) standard 
 \operatorname{diag}(0.05,\;0.05,\;0.05,\;0.005)\bigr),
 \]</span></p>
 <p>i.e., add four independent normals with the specified variances.</p>
-<div id="b83fb162" class="cell" data-message="false" data-execution_count="5">
+<div id="f471d54d" class="cell" data-message="false" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># -------------------- log prior: independent normals ------------------------</span></span>
@@ -773,7 +773,7 @@ Table&nbsp;1 reports the point estimates, asymptotic (inverse-Hessian) standard 
 <pre><code>Acceptance rate: 0.341</code></pre>
 </div>
 </div>
-<div id="5d628a2b" class="cell" data-message="false" data-execution_count="6">
+<div id="5bff5f0c" class="cell" data-message="false" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Retain the 10 000 post-burn draws</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>posterior <span class="op">=</span> chain[burn:]</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -846,7 +846,7 @@ Bayesian and frequentist stories are in tight agreement.</li>
 <p>Below we show the <strong>trace plot</strong> and <strong>posterior density</strong> for the Netflix brand parameter<br>
 <span class="math inline">\(beta_{\text{netflix}}\)</span>.<br>
 A healthy trace should look like “fuzzy spaghetti” with no visible drift, and the histogram ought to match the Gaussian-ish shape we expect from the earlier summary table.</p>
-<div id="cbfca166" class="cell" data-execution_count="7">
+<div id="31530fef" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -863,7 +863,7 @@ A healthy trace should look like “fuzzy spaghetti” with no visible drift, an
 <h3 class="anchored" data-anchor-id="frequentist-vs-bayesian-estimates">Frequentist vs Bayesian Estimates</h3>
 <p>The table below juxtaposes the <strong>Maximum-Likelihood (MLE)</strong> results from Section&nbsp;5 with the <strong>posterior summaries</strong> from Section&nbsp;6.<br>
 Posterior means, standard deviations, and 95 % credible intervals are based on 10 000 post-burn draws.</p>
-<div id="4bb3589d" class="cell" data-message="false" data-execution_count="8">
+<div id="1dcabe80" class="cell" data-message="false" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
