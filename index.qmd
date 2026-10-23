@@ -13,7 +13,14 @@ about:
       href: https://www.linkedin.com/in/nujoum-unus/
   
 ---
-Nujoum Unus is an MS Business Analytics graduate from UC San Diego who designs analytics and GenAI solutions with real business impact. She translates complex data into actionable insights through machine learning, NLP, and thoughtful product design.
+
+**Data scientist focused on fraud, risk and credit analytics.** I build models in Python, SQL and PySpark and turn them into decisions: where to set a fraud cutoff, which borrowers need outreach, what a false alarm actually costs.
+
+- **Fraud:** a LightGBM model on 98K card transactions that catches 77% of out-of-time fraud at an 8% review rate, with a cutoff chosen against false-positive costs ([case study](projects/featured/card-fraud/index.qmd))
+- **Credit risk:** a Propensity-to-Pay model for BriteCap Financial built on 24M+ bank transactions
+- **Data engineering:** PySpark ETL on HDFS and AWS EMR over 18.5M records
+
+MS Business Analytics, UC San Diego (Dec 2025).
 
 ## Education
 
@@ -21,10 +28,10 @@ University of California, San Diego | San Diego, CA
 MS Business Analytics | Aug 2024 - Dec 2025
 
 A.P.J. Abdul Kalam Technological University | Kerala, India
-B.Tech in Computer Science and Engineering | July 2019 - June 2023
+B.Tech in Computer Science and Engineering | Jul 2019 - Jun 2023
 
 ## Experience
 
-BriteCap Financial | Data Science Capstone | April 2025 - June 2025
+Data Science Consultant | BriteCap Financial | Apr 2025 - Jun 2025
 
 Automation Engineer | TATA ELXSI | Nov 2023 - May 2024

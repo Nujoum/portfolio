@@ -1,6 +1,19 @@
 ---
-title: "My Projects"
+title: "Projects"
 listing:
-  contents: projects  # <-- the sub-directory with blog content
-  type: grid          # <-- my preferred layout type
+  - id: featured
+    contents: projects/featured
+    type: grid
+    sort: "date desc"
+    categories: false
+  - id: more
+    contents: "projects/*.qmd"
+    type: grid
+    sort: "title"
 ---
+
+::: {#featured}
+:::
+
+::: {#more}
+:::

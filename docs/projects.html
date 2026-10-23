@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>My Projects – Nujoum’s Website</title>
+<title>Projects – Nujoum Unus</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -71,7 +71,7 @@ ul.task-list li input[type="checkbox"] {
 <script>
 
   window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
+    const listingTargetEl = window.document.querySelector('#listing-featured .list');
     if (!listingTargetEl) {
       // No listing discovered, do not attach.
       return; 
@@ -84,7 +84,35 @@ ul.task-list li input[type="checkbox"] {
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
+    window['quarto-listings']['listing-featured'] = new List('listing-featured', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
+  
+
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-more .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
+
+    const options = {
+      valueNames: ['listing-title','listing-author','listing-date','listing-image','listing-description',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      
+      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description"],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-more'] = new List('listing-more', options);
 
     if (window['quarto-listing-loaded']) {
       window['quarto-listing-loaded']();
@@ -139,7 +167,7 @@ window.Quarto = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">Nujoum’s Website</span>
+    <span class="navbar-title">Nujoum Unus</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -179,7 +207,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">My Projects</h1>
+<h1 class="title">Projects</h1>
 </div>
 
 
@@ -196,13 +224,41 @@ window.Quarto = {
 </header>
 
 
-
-
-
-
-<div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
+<div id="listing-featured" class="quarto-listing quarto-listing-container-grid">
 <div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-listing-date-sort="1768982400000" data-listing-file-modified-sort="1769019479634" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="43" data-listing-word-count-sort="8477">
+<div class="g-col-1" data-index="0" data-categories="RnJhdWQlMjAlMjYlMjBSaXNrJTJDTGlnaHRHQk0lMkNQeXRob24=" data-listing-date-sort="1747281600000" data-listing-file-modified-sort="1792764159138" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="417">
+<a href="./projects/featured/card-fraud/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img loading="lazy" src="./projects/featured/card-fraud/savings.png" class="thumbnail-image card-img" style="height: 150px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Credit Card Fraud Detection: Choosing the Cutoff
+</h5>
+<div class="card-text listing-description">
+Caught 77% of out-of-time fraud at an 8% review rate, then recommended a lower cutoff to protect legitimate customers.
+</div>
+<div class="card-attribution card-text-small justify">
+<div class="listing-author">
+Nujoum Unus
+</div>
+<div class="listing-date">
+May 15, 2025
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+</div>
+<div class="listing-no-matching d-none">
+No matching items
+</div>
+</div>
+<div id="listing-more" class="quarto-listing quarto-listing-container-grid">
+<div class="list grid quarto-listing-cols-3">
+<div class="g-col-1" data-index="0" data-listing-date-sort="1792728000000" data-listing-file-modified-sort="1769019479634" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="43" data-listing-word-count-sort="8477">
 <a href="./projects/karlan_list_2007_replication.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="projects/karlan_list_2007_replication_files/figure-html/cell-4-output-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
@@ -218,17 +274,17 @@ Dean Karlan at Yale and John List at the University of Chicago conducted a field
 Nujoum Unus
 </div>
 <div class="listing-date">
-Jan 21, 2026
+Oct 23, 2026
 </div>
 </div>
 </div>
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="1" data-listing-date-sort="1748415600000" data-listing-file-modified-sort="1769019479626" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="23" data-listing-word-count-sort="4486">
-<a href="./projects/hw3_questions.html" class="quarto-grid-link">
+<div class="g-col-1" data-index="1" data-listing-date-sort="1748404800000" data-listing-file-modified-sort="1769020582984" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="23" data-listing-word-count-sort="4486">
+<a href="./projects/multinomial_logit_model.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="projects/hw3_questions_files/figure-html/cell-8-output-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
+<p class="card-img-top"><img src="projects/multinomial_logit_model_files/figure-html/cell-8-output-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
 Multinomial Logit Model
@@ -248,7 +304,7 @@ May 28, 2025
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="2" data-listing-date-sort="1746601200000" data-listing-file-modified-sort="1769019479634" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="31" data-listing-word-count-sort="6200">
+<div class="g-col-1" data-index="2" data-listing-date-sort="1746590400000" data-listing-file-modified-sort="1769019479634" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="31" data-listing-word-count-sort="6200">
 <a href="./projects/poisson_regression_examples.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="projects/poisson_regression_examples_files/figure-html/cell-3-output-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
@@ -271,10 +327,10 @@ May 7, 2025
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="3" data-listing-date-sort="NaN" data-listing-file-modified-sort="1769019479626" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2229">
-<a href="./projects/hw4_questions.html" class="quarto-grid-link">
+<div class="g-col-1" data-index="3" data-listing-date-sort="NaN" data-listing-file-modified-sort="1769020582984" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2229">
+<a href="./projects/k_means_clustering.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="projects/hw4_questions_files/figure-html/kmeans-from-scratch-output-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
+<p class="card-img-top"><img src="projects/k_means_clustering_files/figure-html/kmeans-from-scratch-output-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
 Segmentation and Strategy: Using ML to Decode Penguins and People
@@ -298,7 +354,12 @@ Invalid Date
 <div class="listing-no-matching d-none">
 No matching items
 </div>
-</div></main> <!-- /main -->
+</div>
+
+
+
+
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

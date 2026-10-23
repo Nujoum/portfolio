@@ -7,7 +7,7 @@ extensions:
   - jmgirard/embedpdf
 
 website:
-  title: "Nujoum's Website"
+  title: "Nujoum Unus"
   navbar:
     left:
       - href: index.qmd
