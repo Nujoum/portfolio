@@ -1,1 +1,12 @@
 /* css styles */
+
+/* Homepage (jolla template): keep photo and links centered, but left-align the body text and bullets */
+.quarto-about-jolla main.content {
+  text-align: left;
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.quarto-about-jolla main.content ul {
+  padding-left: 1.25rem;
+}
