@@ -1,6 +1,6 @@
 ---
-pagetitle: "Nujoum Unus · Data scientist for fraud, risk and credit"
-description: "Nujoum Unus is a data scientist for fraud, risk and credit analytics."
+pagetitle: "Nujoum Unus · Data scientist"
+description: "Nujoum Unus is a data scientist who turns data into decisions, with work in credit risk, fraud, experimentation and analytics."
 page-layout: custom
 toc: false
 include-after-body: assets/home-script.html
@@ -16,123 +16,120 @@ include-after-body: assets/home-script.html
 
   <div class="stage-read">
     <nav class="home-nav" aria-label="Main">
-      <a href="#work">Work</a>
-      <a href="#cutoff">The cutoff</a>
+      <a href="#projects">Projects</a>
       <a href="#about">About</a>
       <a href="resume.html">Resume</a>
       <a class="btn" href="mailto:nujoumunus@gmail.com?subject=Hello%20Nujoum">Email me</a>
     </nav>
 
     <div class="hero-copy reveal">
-      <p class="hero-line">Data scientist for fraud, risk and credit. I turn models into decisions.</p>
+      <p class="hero-line">Data scientist. I build models and analyses that turn messy data into decisions people can act on.</p>
     </div>
 
     <h1 id="hero-name" class="wordmark" data-scale-wordmark>nujoum unus</h1>
 
-    <section id="cutoff" class="cutoff" aria-labelledby="cutoff-title">
-      <h2 id="cutoff-title" class="reveal">Where I drew the line</h2>
-      <p class="reveal">On 98,393 government card transactions, my LightGBM model ranks every purchase by fraud risk. Blocking more of them catches more fraud, but every false alarm stops a real cardholder. Move the cutoff to see the trade-off from my report.</p>
+    <section id="about" class="about" aria-labelledby="about-title">
+      <h2 id="about-title" class="reveal">About me</h2>
+      <p class="reveal">I recently finished my MS in Business Analytics at UC San Diego. I like the point where a model has to become a decision: which transactions to review, which borrowers need outreach, which customers an offer actually persuades.</p>
+      <p class="reveal">At BriteCap Financial I built a Propensity-to-Pay model from 24M+ bank transactions for a consumer lender. Before my MS, at TATA ELXSI, I built a GenAI prototype that automated UML documentation and won a top-three company innovation award.</p>
+      <p class="reveal">I'm open to data science and analytics roles across industries, from risk and finance to product, marketing and operations.</p>
 
-      <div class="dial reveal" data-dial>
-        <label for="cut" class="dial-label">Review the riskiest <output id="cut-out" for="cut">8</output>% of transactions</label>
+      <dl class="facts reveal">
+        <div><dt>Tools</dt><dd>Python, SQL, PySpark, Snowflake, PostgreSQL, AWS (EMR, SageMaker), Tableau, Git</dd></div>
+        <div><dt>Methods</dt><dd>Machine learning, experimentation and A/B testing, regression, segmentation, NLP, LLMs</dd></div>
+        <div><dt>Experience</dt><dd>Data Science Consultant, BriteCap Financial (2025) · Automation Engineer, TATA ELXSI (2023–2024)</dd></div>
+        <div><dt>Education</dt><dd>MS Business Analytics, UC San Diego (2025) · B.Tech Computer Science, APJ Abdul Kalam Technological University (2023)</dd></div>
+      </dl>
+    </section>
+  </div>
+</section>
+
+<section id="projects" class="projects" aria-labelledby="projects-title">
+  <h2 id="projects-title" class="projects-heading">Selected projects</h2>
+
+  <article class="proj">
+    <figure class="proj-pic reveal"><img src="assets/work/fraud-b.png" width="4500" height="3000" loading="lazy" alt="Line chart of fraud savings, false-positive loss and net savings by review cutoff"></figure>
+    <div class="proj-text reveal">
+      <h3>Card Fraud Detection</h3>
+      <p><strong>Problem.</strong> 98,393 government card transactions, 2.53% fraud: how many purchases should be blocked for review?</p>
+      <p><strong>Approach.</strong> About 4,400 behavioral features, KS and wrapper selection, and a LightGBM model compared against four others.</p>
+      <p><strong>Result.</strong> Catches 77% of out-of-time fraud at an 8% review rate. I recommended a 5 to 5.5% cutoff to limit false alarms on real customers.</p>
+
+      <div class="dial" data-dial>
+        <label for="cut" class="dial-label">Try it: review the riskiest <output id="cut-out" for="cut">8</output>%</label>
         <input id="cut" type="range" min="6" max="15" step="1" value="8" aria-describedby="dial-note">
         <dl class="dial-figures">
           <div><dt>Fraud savings</dt><dd><span data-v="fraud">$65.5M</span><b class="bar" data-bar="fraud" style="--w:89%"></b></dd></div>
           <div><dt>False-positive loss</dt><dd><span data-v="fp">$8.9M</span><b class="bar bar-loss" data-bar="fp" style="--w:12%"></b></dd></div>
           <div><dt>Net savings</dt><dd><span data-v="net" class="net">$56.7M</span><b class="bar bar-net" data-bar="net" style="--w:77%"></b></dd></div>
         </dl>
-        <p id="dial-note" class="dial-note" data-note>An 8% cutoff earns over 99% of the maximum net savings.</p>
+        <p id="dial-note" class="dial-note" data-note>Over 99% of the maximum net savings.</p>
       </div>
+      <p class="proj-meta">Python · LightGBM · <a href="projects/featured/card-fraud/index.html">Read the case study</a></p>
+    </div>
+  </article>
 
-      <noscript>
-        <table>
-          <thead><tr><th scope="col">Cutoff</th><th scope="col">Fraud savings</th><th scope="col">False-positive loss</th><th scope="col">Net savings</th></tr></thead>
-          <tbody>
-            <tr><td>6%</td><td>$60.5M</td><td>$6.1M</td><td>$54.4M</td></tr>
-            <tr><td>7%</td><td>$63.1M</td><td>$7.5M</td><td>$55.7M</td></tr>
-            <tr><td>8%</td><td>$65.5M</td><td>$8.9M</td><td>$56.7M</td></tr>
-            <tr><td>9%</td><td>$67.4M</td><td>$10.3M</td><td>$57.2M</td></tr>
-            <tr><td>10%</td><td>$68.6M</td><td>$11.7M</td><td>$56.9M</td></tr>
-            <tr><td>11%</td><td>$70.3M</td><td>$13.2M</td><td>$57.2M</td></tr>
-            <tr><td>12%</td><td>$71.3M</td><td>$14.6M</td><td>$56.7M</td></tr>
-            <tr><td>13%</td><td>$71.8M</td><td>$16.1M</td><td>$55.6M</td></tr>
-            <tr><td>14%</td><td>$73.4M</td><td>$17.6M</td><td>$55.9M</td></tr>
-            <tr><td>15%</td><td>$73.9M</td><td>$19.1M</td><td>$54.9M</td></tr>
-          </tbody>
-        </table>
-      </noscript>
-      <p class="reveal">Net savings peak at 9%. I recommended <strong>5 to 5.5%</strong>: close to the financial optimum, before false alarms on real customers start climbing. <a href="projects/featured/card-fraud/index.html">Read the case study</a></p>
+  <article class="proj proj-figures">
+    <div class="proj-pic proj-numbers" aria-hidden="true">
+      <p><span>24M+</span> bank transactions</p>
+      <p><span>7,600+</span> loan applications</p>
+    </div>
+    <div class="proj-text reveal">
+      <h3>Propensity to Pay</h3>
+      <p><strong>Problem.</strong> BriteCap Financial, a consumer lender, wanted to know which borrowers were likely to repay.</p>
+      <p><strong>Approach.</strong> Behavioral features from Plaid bank data, lagged to avoid label leakage, with KS and PSI stability checks; Logistic Regression, Random Forest and LightGBM compared.</p>
+      <p><strong>Result.</strong> A documented, reusable scoring pipeline and a borrower segmentation for collections and remarketing, presented to company leadership.</p>
+      <p class="proj-meta">Python · LightGBM · SHAP · UC San Diego capstone, 2025</p>
+    </div>
+  </article>
 
-    </section>
-  </div>
+  <article class="proj">
+    <figure class="proj-pic reveal"><img src="assets/work/seg-b.png" width="1323" height="940" loading="lazy" alt="Within-cluster sum of squares and silhouette scores used to choose the number of clusters"></figure>
+    <div class="proj-text reveal">
+      <h3>Customer Segmentation</h3>
+      <p><strong>Problem.</strong> Find natural customer groups and what drives satisfaction.</p>
+      <p><strong>Approach.</strong> K-means written from scratch and checked against scikit-learn, K chosen by WCSS and silhouette, and key drivers ranked with eight importance measures including Shapley values.</p>
+      <p><strong>Result.</strong> Validated clusters and a ranked list of satisfaction drivers.</p>
+      <p class="proj-meta">Python · scikit-learn · XGBoost · <a href="projects/k_means_clustering.html">View project</a></p>
+    </div>
+  </article>
+
+  <article class="proj">
+    <figure class="proj-pic reveal"><img src="assets/work/gift-a.png" width="1132" height="748" loading="lazy" alt="Proportion of people who donated in the control and treatment groups"></figure>
+    <div class="proj-text reveal">
+      <h3>Matching-Grant Experiment</h3>
+      <p><strong>Problem.</strong> Replicate a 50,000-person field experiment on fundraising letters (Karlan and List, 2007).</p>
+      <p><strong>Approach.</strong> Randomization checks, t-tests, OLS, probit and simulation in Python.</p>
+      <p><strong>Result.</strong> Reproduced the published finding: matching-grant letters lifted response from 1.79% to 2.21% (p = 0.002).</p>
+      <p class="proj-meta">Python · statsmodels · <a href="projects/karlan_list_2007_replication.html">View project</a></p>
+    </div>
+  </article>
+
+  <article class="proj">
+    <figure class="proj-pic reveal"><img src="assets/work/pat-a.png" width="1516" height="940" loading="lazy" alt="Histogram of patents awarded to customers and non-customers"></figure>
+    <div class="proj-text reveal">
+      <h3>Testing a Patent Claim</h3>
+      <p><strong>Problem.</strong> A software vendor claimed its customers earn more patents. Is that true?</p>
+      <p><strong>Approach.</strong> A hand-coded Poisson regression on 1,500 engineering firms, checked against statsmodels, controlling for region and firm age.</p>
+      <p><strong>Result.</strong> Customers earn about 23% more patents, with a clear caveat that the data is observational, not causal.</p>
+      <p class="proj-meta">Python · statsmodels · <a href="projects/poisson_regression_examples.html">View project</a></p>
+    </div>
+  </article>
+
+  <p class="projects-all"><a href="projects.html">All projects <span aria-hidden="true">→</span></a></p>
 </section>
 
-<section id="work" class="work" aria-labelledby="work-title">
-  <h2 id="work-title" class="work-heading">Selected work</h2>
-
-  <article class="tear" data-tear>
-    <div class="tear-stage">
-      <figure class="pane pane-l"><img src="assets/work/fraud-a.png" width="800" height="500" loading="lazy" alt="Bar chart: fraud rate is 2.53% overall but 40.45% for transactions over $5,000"></figure>
-      <figure class="pane pane-r"><img src="assets/work/fraud-b.png" width="4500" height="3000" loading="lazy" alt="Line chart of fraud savings, false-positive loss and net savings by review cutoff"></figure>
-      <div class="tear-copy">
-        <h3 class="tear-title">Fraud cutoff</h3>
-        <p>Credit card fraud model · 2025 · <a href="projects/featured/card-fraud/index.html">Case study <span aria-hidden="true">→</span></a></p>
-      </div>
-    </div>
-  </article>
-
-  <article class="tear" data-tear>
-    <div class="tear-stage">
-      <figure class="pane pane-l"><img src="assets/work/seg-a.png" width="3052" height="3052" loading="lazy" alt="K-means clusters of Palmer penguins built from scratch"></figure>
-      <figure class="pane pane-r"><img src="assets/work/seg-b.png" width="1323" height="940" loading="lazy" alt="Within-cluster sum of squares and silhouette scores used to choose K"></figure>
-      <div class="tear-copy">
-        <h3 class="tear-title">Segments</h3>
-        <p>K-means and key drivers · 2025 · <a href="projects/k_means_clustering.html">Project <span aria-hidden="true">→</span></a></p>
-      </div>
-    </div>
-  </article>
-
-  <article class="tear" data-tear>
-    <div class="tear-stage">
-      <figure class="pane pane-l"><img src="assets/work/gift-a.png" width="1132" height="748" loading="lazy" alt="Donation response rates by treatment group in the Karlan and List experiment"></figure>
-      <figure class="pane pane-r"><img src="assets/work/gift-b.png" width="2284" height="748" loading="lazy" alt="Histograms of donation amounts for the control and treatment groups"></figure>
-      <div class="tear-copy">
-        <h3 class="tear-title">Matching</h3>
-        <p>Matching-gift field experiment · 2025 · <a href="projects/karlan_list_2007_replication.html">Project <span aria-hidden="true">→</span></a></p>
-      </div>
-    </div>
-  </article>
-
-  <article class="tear" data-tear>
-    <div class="tear-stage">
-      <figure class="pane pane-l"><img src="assets/work/pat-a.png" width="1516" height="940" loading="lazy" alt="Histogram of patents awarded to customers and non-customers"></figure>
-      <figure class="pane pane-r"><img src="assets/work/pat-b.png" width="1466" height="890" loading="lazy" alt="Poisson log-likelihood across candidate lambda values, peaking at the maximum-likelihood estimate of 3.68"></figure>
-      <div class="tear-copy">
-        <h3 class="tear-title">Patents</h3>
-        <p>Poisson regression · 2025 · <a href="projects/poisson_regression_examples.html">Project <span aria-hidden="true">→</span></a></p>
-      </div>
-    </div>
-  </article>
-
-  <p class="work-all"><a href="projects.html">All projects <span aria-hidden="true">→</span></a></p>
-</section>
-
-<section id="about" class="letter" aria-labelledby="about-title">
-  <div class="sheet">
-    <img class="letter-face" src="assets/portrait.jpg" width="1600" height="1066" loading="lazy" alt="">
-    <h2 id="about-title">About me</h2>
-    <p class="reveal">I'm a data scientist who likes the moment a model has to become a decision. Where should the fraud cutoff sit? Which borrowers need a call this week? What does a false alarm actually cost?</p>
-    <p class="reveal">At BriteCap Financial, a consumer lender, I built a Propensity-to-Pay model from 24M+ bank transactions across 7,600+ loan applications, guarded it against label leakage, and handed leadership a reusable scoring pipeline.</p>
-    <p class="reveal">In my MS Business Analytics at UC San Diego I built fraud models for card transactions and synthetic identities, and PySpark pipelines on AWS EMR over 18.5M records.</p>
-    <p class="reveal">Before that, at TATA ELXSI, I built a GenAI prototype that automated UML documentation and won a top-three company innovation award.</p>
-    <p class="reveal">I'm looking for <mark>fraud, risk and credit analytics roles</mark> where the numbers decide something real.</p>
-    <p class="sign">Nujoum Unus</p>
-    <p class="sign-role">Data scientist · Albany, NY</p>
+<section id="resume" class="resume-band" aria-labelledby="resume-title">
+  <div class="resume-text">
+    <h2 id="resume-title" class="reveal">Resume</h2>
+    <p class="reveal">Experience, projects, education and skills on one page.</p>
+    <p class="resume-actions reveal"><a class="btn" href="resume.html">View resume</a> <a href="resume/Nujoum_Unus_Resume.pdf" download>Download PDF</a></p>
   </div>
+  <a class="resume-preview reveal" href="resume.html"><img src="assets/resume-preview.png" width="850" height="1100" loading="lazy" alt="First page of Nujoum Unus's resume"></a>
 </section>
 
 <section id="contact" class="contact" aria-labelledby="contact-title">
-  <h2 id="contact-title" class="contact-lead">Hiring for fraud, risk or credit analytics? Write to me.</h2>
+  <h2 id="contact-title" class="contact-lead">Hiring for data science or analytics? Write to me.</h2>
   <a class="contact-mail" href="mailto:nujoumunus@gmail.com?subject=Hello%20Nujoum">nujoumunus<wbr>@gmail.com</a>
   <div class="contact-foot">
     <p>Albany, NY</p>
@@ -143,7 +140,7 @@ include-after-body: assets/home-script.html
 <footer class="home-foot">
   <img src="assets/geisel-library-uc-san-diego.jpg" width="1920" height="1280" loading="lazy" alt="Geisel Library at UC San Diego, a stepped concrete and glass building under a blue sky">
   <div class="foot-top">
-    <p><a href="#work">Work</a> <a href="projects.html">Projects</a> <a href="resume.html">Resume</a></p>
+    <p><a href="#projects">Projects</a> <a href="#about">About</a> <a href="resume.html">Resume</a></p>
     <p><a href="mailto:nujoumunus@gmail.com">nujoumunus@gmail.com</a></p>
   </div>
   <p class="foot-word" aria-hidden="true">nujoum unus</p>

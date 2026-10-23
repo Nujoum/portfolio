@@ -1,5 +1,59 @@
 ---
 title: "Resume"
+toc: false
 ---
 
-{{< pdf /resume/Nujoum_Unus_Resume.pdf width=100% height=800 >}}
+[Download PDF](resume/Nujoum_Unus_Resume.pdf){.btn-download download="Nujoum_Unus_Resume.pdf"}
+
+**Nujoum Unus** · Data Scientist · Albany, NY · [nujoumunus@gmail.com](mailto:nujoumunus@gmail.com) · [LinkedIn](https://www.linkedin.com/in/nujoum-unus/) · [GitHub](https://github.com/Nujoum)
+
+Data scientist (MS Business Analytics, UC San Diego) who builds predictive models, experiments and data pipelines in SQL, Python and PySpark, from a LightGBM fraud model sized against false-positive costs and a credit risk model for a consumer lender to uplift models on randomized experiments.
+
+## Experience
+
+### Data Science Consultant, BriteCap Financial
+
+San Diego, CA · Apr 2025 - Jun 2025
+
+- Built and validated a Propensity-to-Pay model (Logistic Regression, Random Forest, LightGBM) with lagged features against label leakage, KS and PSI stability screening and a borrower-level train/test split
+- Engineered behavioral features from 24M+ Plaid bank transactions across 7,600+ loan applications and explained drivers with SHAP
+- Segmented customers by financial trend and funnel outcome to target outreach, and presented findings and a reusable pipeline to leadership
+
+### Automation Engineer, TATA ELXSI
+
+India · Nov 2023 - May 2024
+
+- Built a GenAI prototype with LLMs and AWS SageMaker to automate UML documentation, cutting effort ~60% and winning a top-three company innovation award
+- Ranked #1 of 60+ trainees as a "Rising Star" for rapid onboarding, problem-solving and cross-functional collaboration
+
+## Projects
+
+### Credit Card Fraud Detection Model
+
+*Python, LightGBM*
+
+Built a LightGBM fraud model on 98K+ card transactions, catching 77% of out-of-time fraud at an 8% review rate; sized cutoffs against false-positive costs (~$56.7M est. net annual savings, over 99% of the maximum).
+
+### Uplift & Propensity Targeting (Creative Gaming)
+
+*Python, Logistic Regression, Random Forest, Uplift Modeling*
+
+Built uplift models on randomized ad-experiment data to target users an ad actually persuades, selecting the best 30,000 of 120,000 users to maximize incremental profit.
+
+### Distributed Data Pipelines with PySpark & AWS EMR
+
+*PySpark, Spark SQL, HDFS, S3, EMR, SageMaker*
+
+Built PySpark ETL on HDFS and AWS EMR over 18.5M records and deployed a tuned XGBoost model to a SageMaker endpoint.
+
+## Education
+
+**University of California, San Diego** · Master of Science in Business Analytics (GPA 3.6/4) · Aug 2024 - Dec 2025
+
+**A.P.J. Abdul Kalam Technological University** · Bachelor of Science in Computer Science and Engineering (GPA 3.58/4) · Jul 2019 - Jun 2023
+
+## Skills
+
+**Analytics:** SQL, Python (pandas, NumPy, statsmodels, scikit-learn), A/B testing, experimental design, uplift modeling, forecasting, statistics
+
+**Tools & ML:** PySpark, Snowflake, PostgreSQL, AWS (EMR, SageMaker), Tableau, LightGBM, XGBoost, LLMs, MCP agents, Git
