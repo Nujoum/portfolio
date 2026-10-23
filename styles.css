@@ -1,4 +1,4 @@
-/* ===== Tokens: colours taken from the portrait (navy blazer, ivory hijab, grey backdrop)
+/* ===== Tokens: colours taken from the portrait (navy blazer and hijab, stone street)
    and the recommended-cutoff line of the fraud chart (green accent) ===== */
 :root {
   --bg: #131b2a;
@@ -79,7 +79,7 @@ h2 { border-bottom: 0 !important; padding-bottom: 0 !important; }
   position: sticky; top: 20px;
   width: calc(100% - 20px); height: calc(100svh - 40px);
   margin: 20px 0 20px 20px;
-  object-fit: cover; object-position: 45% 30%;
+  object-fit: cover; object-position: 55% 30%;
   display: block;
 }
 .stage-read { padding: 0 var(--margin) 160px clamp(32px, 5vw, 72px); position: relative; }
