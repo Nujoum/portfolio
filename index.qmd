@@ -1,6 +1,7 @@
 ---
 title: "Nujoum Unus"
 image: 'images/Nujoum Unus.jpg'
+image-alt: "Portrait of Nujoum Unus"
 about:
     template: jolla
     links:

@@ -5,14 +5,15 @@ author: "Nujoum Unus"
 date: 2025-05-15
 categories: [Fraud & Risk, LightGBM, Python]
 image: savings.png
+image-alt: "Chart of fraud savings, false-positive loss and net savings by review cutoff"
 description: "Caught 77% of out-of-time fraud at an 8% review rate, then recommended a lower cutoff to protect legitimate customers."
 ---
 
-## The problem
+## The Problem
 
 A U.S. government program's credit cards logged **98,393 transactions in 2010**. Only **2.53%** were fraud. The question wasn't just "can we score fraud?" It was **how many transactions to block**, because every false alarm stops a legitimate purchase.
 
-## What I built
+## What I Built
 
 **Data quality.** I excluded non-purchase records, fixed malformed merchant state codes, filled missing ZIPs and states, and removed a single $3.1M record that would have distorted scaling.
 
@@ -26,7 +27,7 @@ A U.S. government program's credit cards logged **98,393 transactions in 2010**.
 | Entity links | Card + merchant, card + ZIP pairs | Pairs that are risky together but normal alone |
 | Days since | Time since a card or merchant was last active | Fraud often follows dormancy |
 
-![Transactions over $5,000 are fraud 40.45% of the time, vs. 2.53% overall](high-amount.png){width=75%}
+![Transactions over $5,000 are fraud 40.45% of the time, vs. 2.53% overall](high-amount.png){width=75% fig-alt="Bar chart: fraud rate 2.53% overall vs. 40.45% for transactions over $5,000" loading="lazy"}
 
 **Selection and model.** I filtered features with a KS test, ran wrapper selection down to a compact set, and compared decision trees, random forests, LightGBM, LightGBM with SMOTE and a neural network. **LightGBM (GOSS)** held up best from train to out-of-time data.
 
@@ -40,9 +41,9 @@ Fraud detection rate at a 3% review rate (FDR@3%):
 
 Reviewing the top **8%** of scores catches **77% of out-of-time fraud**.
 
-## The decision: where to set the cutoff
+## The Decision: Where to Set the Cutoff
 
-![Fraud savings, false-positive loss and net savings by cutoff](savings.png)
+![Fraud savings, false-positive loss and net savings by cutoff](savings.png){fig-alt="Line chart of fraud savings, false-positive loss and net savings as the review cutoff rises from 0 to 20 percent" loading="lazy"}
 
 | Cutoff | Fraud savings | False-positive loss | Net savings |
 |---|---|---|---|
@@ -55,7 +56,7 @@ An 8% cutoff earns **over 99% of the maximum net savings** while cutting about $
 
 But money isn't the only cost. Past roughly 5 to 6%, false positives start climbing fast, and each one is a real cardholder whose purchase gets blocked. **I recommended a 5 to 5.5% cutoff**: close to the financial optimum, before the point where customer friction escalates.
 
-## What I'd do next in production
+## What I'd Do Next in Production
 
 - Monitor score drift and fraud rates monthly, since fraud patterns shift
 - Champion/challenger test any new cutoff before rolling it out

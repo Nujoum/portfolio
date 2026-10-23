@@ -1,5 +1,7 @@
 ---
 title: "Poisson Regression Examples"
+image: "poisson_regression_examples_files/figure-html/cell-3-output-1.png"
+image-alt: "Chart from the Poisson regression analysis of patent counts"
 author: "Nujoum Unus"
 date: May 7, 2025
 callout-appearance: minimal # this hides the blue "i" icon on .callout-notes

@@ -10,3 +10,23 @@
 .quarto-about-jolla main.content ul {
   padding-left: 1.25rem;
 }
+
+/* Skip link: hidden until focused with the keyboard */
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -3rem;
+  z-index: 2000;
+  padding: 0.5rem 0.75rem;
+  background: #ffffff;
+  color: #000000;
+}
+.skip-link:focus-visible {
+  top: 1rem;
+}
+
+/* Avoid widows in headings; keep anchored headings clear of the sticky navbar */
+h1, h2, h3 {
+  text-wrap: balance;
+  scroll-margin-top: 4.5rem;
+}

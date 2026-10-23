@@ -1,5 +1,7 @@
 ---
 title: "Segmentation and Strategy: Using ML to Decode Penguins and People"
+image: "k_means_clustering_files/figure-html/kmeans-from-scratch-output-1.png"
+image-alt: "K-means clustering chart of the Palmer penguins data"
 author: "Nujoum Unus"
 date: 10th June 2025
 ---

@@ -1,5 +1,7 @@
 ---
 title: "Multinomial Logit Model"
+image: "multinomial_logit_model_files/figure-html/cell-8-output-1.png"
+image-alt: "Chart from the multinomial logit conjoint analysis"
 author: "Nujoum Unus"
 date: May 28, 2025
 ---

@@ -69,6 +69,7 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<meta name="theme-color" content="#ffffff">
 
 
 <link rel="stylesheet" href="../../../styles.css">
@@ -119,16 +120,17 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#the-problem" id="toc-the-problem" class="nav-link active" data-scroll-target="#the-problem">The problem</a></li>
-  <li><a href="#what-i-built" id="toc-what-i-built" class="nav-link" data-scroll-target="#what-i-built">What I built</a></li>
+  <li><a href="#the-problem" id="toc-the-problem" class="nav-link active" data-scroll-target="#the-problem">The Problem</a></li>
+  <li><a href="#what-i-built" id="toc-what-i-built" class="nav-link" data-scroll-target="#what-i-built">What I Built</a></li>
   <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
-  <li><a href="#the-decision-where-to-set-the-cutoff" id="toc-the-decision-where-to-set-the-cutoff" class="nav-link" data-scroll-target="#the-decision-where-to-set-the-cutoff">The decision: where to set the cutoff</a></li>
-  <li><a href="#what-id-do-next-in-production" id="toc-what-id-do-next-in-production" class="nav-link" data-scroll-target="#what-id-do-next-in-production">What I’d do next in production</a></li>
+  <li><a href="#the-decision-where-to-set-the-cutoff" id="toc-the-decision-where-to-set-the-cutoff" class="nav-link" data-scroll-target="#the-decision-where-to-set-the-cutoff">The Decision: Where to Set the Cutoff</a></li>
+  <li><a href="#what-id-do-next-in-production" id="toc-what-id-do-next-in-production" class="nav-link" data-scroll-target="#what-id-do-next-in-production">What I’d Do Next in Production</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
+<a class="skip-link" href="#quarto-document-content">Skip to main content</a>
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -173,11 +175,11 @@ ul.task-list li input[type="checkbox"] {
 
 
 <section id="the-problem" class="level2">
-<h2 class="anchored" data-anchor-id="the-problem">The problem</h2>
+<h2 class="anchored" data-anchor-id="the-problem">The Problem</h2>
 <p>A U.S. government program’s credit cards logged <strong>98,393 transactions in 2010</strong>. Only <strong>2.53%</strong> were fraud. The question wasn’t just “can we score fraud?” It was <strong>how many transactions to block</strong>, because every false alarm stops a legitimate purchase.</p>
 </section>
 <section id="what-i-built" class="level2">
-<h2 class="anchored" data-anchor-id="what-i-built">What I built</h2>
+<h2 class="anchored" data-anchor-id="what-i-built">What I Built</h2>
 <p><strong>Data quality.</strong> I excluded non-purchase records, fixed malformed merchant state codes, filled missing ZIPs and states, and removed a single $3.1M record that would have distorted scaling.</p>
 <p><strong>Features.</strong> About <strong>4,400 candidate variables</strong> capturing behavior over time:</p>
 <table class="caption-top table">
@@ -223,7 +225,7 @@ ul.task-list li input[type="checkbox"] {
 </table>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="high-amount.png" class="img-fluid figure-img" style="width:75.0%"></p>
+<p><img src="high-amount.png" class="img-fluid figure-img" style="width:75.0%" loading="lazy" alt="Bar chart: fraud rate 2.53% overall vs. 40.45% for transactions over $5,000"></p>
 <figcaption>Transactions over $5,000 are fraud 40.45% of the time, vs.&nbsp;2.53% overall</figcaption>
 </figure>
 </div>
@@ -251,10 +253,10 @@ ul.task-list li input[type="checkbox"] {
 <p>Reviewing the top <strong>8%</strong> of scores catches <strong>77% of out-of-time fraud</strong>.</p>
 </section>
 <section id="the-decision-where-to-set-the-cutoff" class="level2">
-<h2 class="anchored" data-anchor-id="the-decision-where-to-set-the-cutoff">The decision: where to set the cutoff</h2>
+<h2 class="anchored" data-anchor-id="the-decision-where-to-set-the-cutoff">The Decision: Where to Set the Cutoff</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="savings.png" class="img-fluid figure-img"></p>
+<p><img src="savings.png" class="img-fluid figure-img" loading="lazy" alt="Line chart of fraud savings, false-positive loss and net savings as the review cutoff rises from 0 to 20 percent"></p>
 <figcaption>Fraud savings, false-positive loss and net savings by cutoff</figcaption>
 </figure>
 </div>
@@ -298,7 +300,7 @@ ul.task-list li input[type="checkbox"] {
 <p>But money isn’t the only cost. Past roughly 5 to 6%, false positives start climbing fast, and each one is a real cardholder whose purchase gets blocked. <strong>I recommended a 5 to 5.5% cutoff</strong>: close to the financial optimum, before the point where customer friction escalates.</p>
 </section>
 <section id="what-id-do-next-in-production" class="level2">
-<h2 class="anchored" data-anchor-id="what-id-do-next-in-production">What I’d do next in production</h2>
+<h2 class="anchored" data-anchor-id="what-id-do-next-in-production">What I’d Do Next in Production</h2>
 <ul>
 <li>Monitor score drift and fraud rates monthly, since fraud patterns shift</li>
 <li>Champion/challenger test any new cutoff before rolling it out</li>
