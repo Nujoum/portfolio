@@ -1,0 +1,53 @@
+<script>
+(() => {
+  document.documentElement.classList.add('js');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // The cutoff dial: real figures from the project report (6% to 15% review cutoffs)
+  const rows = {6:[60.48,6.072,54.408],7:[63.12,7.464,55.656],8:[65.52,8.856,56.664],9:[67.44,10.272,57.168],10:[68.64,11.736,56.904],
+    11:[70.32,13.164,57.156],12:[71.28,14.628,56.652],13:[71.76,16.128,55.632],14:[73.44,17.556,55.884],15:[73.92,19.056,54.864]};
+  const notes = {6:'Fewer false alarms, a little less fraud caught.',7:'Still well before false alarms start climbing.',8:'Over 99% of the maximum net savings.',
+    9:'The financial maximum: $57.2M net.',10:'Past the peak: false alarms grow faster than savings.',11:'Ties the peak on paper, with $2.9M more false-alarm cost.',
+    12:'More real cardholders blocked for the same net savings.',13:'Net savings now falling.',14:'Diminishing returns.',15:'False alarms cost $19.1M a year here.'};
+  const dial = document.querySelector('[data-dial]');
+  if (dial) {
+    const input = dial.querySelector('input'), out = dial.querySelector('output'), note = dial.querySelector('[data-note]');
+    const fmt = v => '$' + v.toFixed(1) + 'M', max = 74;
+    const set = () => {
+      const r = rows[input.value]; out.textContent = input.value;
+      ['fraud','fp','net'].forEach((k, i) => {
+        dial.querySelector(`[data-v="${k}"]`).textContent = fmt(r[i]);
+        dial.querySelector(`[data-bar="${k}"]`).style.setProperty('--w', (r[i] / max * 100).toFixed(1) + '%');
+      });
+      note.textContent = notes[input.value];
+    };
+    input.addEventListener('input', set); set();
+  }
+
+  // Entrances: heading, then text, then picture, staggered
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -10% 0px' });
+  document.querySelectorAll('.reveal').forEach(el => {
+    const sibs = [...el.parentElement.querySelectorAll(':scope > .reveal')];
+    el.style.setProperty('--d', (sibs.indexOf(el) * 80) + 'ms'); io.observe(el);
+  });
+
+  if (reduce) return;
+  const word = document.querySelector('[data-scale-wordmark]');
+  const tears = [...document.querySelectorAll('[data-tear]')];
+  const foot = document.querySelector('.home-foot img');
+  const tick = () => {
+    const vh = innerHeight;
+    if (word) { const p = Math.min(1, Math.max(0, scrollY / vh)); word.style.transform = `scale(${1 - p * 0.07})`; }
+    tears.forEach(t => {
+      const r = t.getBoundingClientRect();
+      const p = Math.max(-1, Math.min(1, (r.top + r.height / 2 - vh / 2) / (r.height / 2 + vh / 2)));
+      const [pl, pr] = t.querySelectorAll('.pane'), title = t.querySelector('.tear-title');
+      pl.style.transform = `translateY(${p * -12}svh)`; pr.style.transform = `translateY(${p * 12}svh)`;
+      title.style.transform = `scale(${1 - Math.abs(p) * 0.06})`;
+    });
+    if (foot) { const r = foot.parentElement.getBoundingClientRect(); const p = Math.max(0, Math.min(1, 1 - r.top / vh)); foot.style.transform = `scale(${1.06 - p * 0.06})`; }
+  };
+  let raf = 0; addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(() => { raf = 0; tick(); }); }, { passive: true });
+  addEventListener('resize', tick); tick();
+})();
+</script>
